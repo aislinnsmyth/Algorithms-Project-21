@@ -250,7 +250,6 @@ public class DijkstraShortestPath {
 			for(DirectedEdge p: path_itr) {
 				System.out.println("From - "+ p.from() + " to - "+ p.to() + " cost - "+p.weight());
 			}
-
 			ArrayList<Integer> path = getEnrouteStops(to);
 
 			for (int p : path) {
