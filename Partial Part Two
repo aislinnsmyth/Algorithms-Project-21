@@ -251,7 +251,7 @@ public class StopSearchPartTwo {
 				boolean foundStation=false;
 				for (int i = 0; i < stopInfo.length - 1 && !foundStation; i++) {
 					//System.out.println("stopInfo[i][2] = " + stopInfo[i][2]);
-					System.out.println("searchTerm = " + tst.search(searchTerm));
+					//System.out.println("searchTerm = " + tst.search(searchTerm));
 					/* I keep getting a null pointer exception here */
 					try {
 						
