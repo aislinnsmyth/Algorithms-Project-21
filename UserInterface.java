@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UserInterface {
     public static final Scanner input = new Scanner(System.in);
 
-    // User interface menu - allows user to chose from avaible functions
+    // User menu for user to select available features
   public static boolean userMenu() {
         System.out.print("Choose the options below or type '4' to exit the program:\n"
                 + "type 1  To find the shortest path between 2 bus stops \n"
@@ -32,7 +32,6 @@ public class UserInterface {
                         //implement stopfind class part two
                         break;
                     case 3:
-                    
                        ArrivalTime.main();
                         break;
                     default:
@@ -53,7 +52,6 @@ public class UserInterface {
         }
         return true;
     } 
-    
     public static void main(String[] args) throws Exception {
         boolean run = false;
         do {
