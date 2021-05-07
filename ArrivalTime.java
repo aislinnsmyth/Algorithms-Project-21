@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,16 +20,28 @@ public class ArrivalTime {
 		String[] test1 = lineSplit(file, size);		
 		int columns = columns(test1);
 		String[][] test = individualSplit(test1, size, columns);
-		//String[] allTime = allTime(test,size);
-		//String[][] validTime = validTime(test, size, allTime);
-		//String[][] test2 = individualTimeSplit(allTime, size);
+		String[] allTime = allTime(test,size);
+	
+	//	String[][] validTime = validTime(test, size, columns, allTime);
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Please enter the desired arrival time in the format - hh:mm:ss");
 		String input = scanner.nextLine();
-		input = input.replaceFirst("^0*", "");
-		ArrayList<String> tripID = searchTime(test, size, input);
-		//System.out.print(Arrays.deepToString(test2));
-		tripPrint(test, size, tripID); 
+	//	int result = validTime.length; 
+		//System.out.println("The result is " + result);
+	//	System.out.println("The old result is " + test.length);
+		boolean b = true;
+		while (b = true) {
+		if(isValidTime(input)) {
+			input = input.replaceFirst("^0*", "");
+			ArrayList<String> tripID = searchTime(test, size, input);
+			tripPrint(test, size, tripID);
+			}
+			else {
+				System.out.println("The input was not a valid time in the format - hh:mm:ss");
+				
+			}
+		b = false;
+		}
 	}
 
 
@@ -69,7 +83,7 @@ public class ArrivalTime {
 
 	static String[][] individualSplit(String[] string, int size, int columns)  {
 
-		String[] arr = string[1].split(",");		
+		String[] arr = string[1].split(", ");		
 		String[][] fullFile = new String[size][columns];
 		for(int i = 0; i < size; i++) {
 			string[i] = string[i].replaceAll(", ", ",");
@@ -92,7 +106,7 @@ public class ArrivalTime {
 		return tripID;
 	}
 
-	/*	static String[] allTime (String[][] file, int size){
+	static String[] allTime (String[][] file, int size){
 		String[] allTime = new String[size];		
 		for (int i = 0; i < size; i++) {          						
 			allTime[i] = file[i][1];
@@ -100,43 +114,34 @@ public class ArrivalTime {
 		return allTime;
 	}
 
-	static String[][] individualTimeSplit(String[] string, int size)  {	
-		String[][] fullTimeFile = new String[size][3];
-		for(int i = 0; i < size; i++) {			
-			String[] arr = new String[3];
-			arr = string[i].split(":");
-			for(int j = 0; j < 3 ; j++) {
-				fullTimeFile [i][j] = arr[j];
-			}
-		}
-
-		return fullTimeFile;
-	}
-
-	static String[][] validTime (String[][] file, int size, String[] allTime){
-
-		int columns = 0;
-    	String[] arr = file[1][1].split(",");
-		columns = arr.length + 1;		
+	static String[][] validTime (String[][] file, int size, int columns, String[] string){
+		String[] arr = string[1].split(", ");
 		String[][] validTime = new String[size][columns];
-
-		for (int i = 0; i < size; i++) {          						
-		for(int j = 0; j < columns; j++) {
-			for(int x = 0; x < allTime.length; x++) {
-				//	if (allTime[x] = "1" ) {
-					{
+		for (int i = 0; i < size; i++) {          												
+			if (isValidTime(arr[i])) {					
+				for (int j = 0; j < columns; j++) {	
 					validTime[i][j] = file[i][j];
-					}
 				}
-			}		
+			}								
 		}
 		return validTime;
-	} */
+	} 
 
+	static boolean isValidTime(String time)
+	{     
+		String regex = "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]";
+		Pattern p = Pattern.compile(regex);
+
+		if (time == null) {
+			return false;
+		}
+		Matcher m = p.matcher(time);
+		return m.matches();
+	}
 
 
 	static void tripPrint(String[][] time, int size, ArrayList<String> tripID) {
-
+		int y = 0;
 		System.out.println("Here are all of the journeys that feature this arrival time!");
 		for (int i = 0; i < size; i++) {
 			for(int j = 0; j < tripID.size(); j++) {
@@ -151,8 +156,12 @@ public class ArrivalTime {
 					System.out.println("The drop off type is - " + time[i][7]);
 					System.out.println("The shape distance traveled is - " + time[i][8]);
 					System.out.println(" ");
+					y++;
 				}
 			}
 		}
+		if (y == 0) {
+			System.out.println("Sorry no journey with that features that arrival time was found");
+		} 
 	}	
 }
