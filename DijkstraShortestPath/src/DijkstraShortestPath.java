@@ -231,40 +231,40 @@ public class DijkstraShortestPath {
 
 	public static void main(String[] args) {
 
-		boolean bool = true;
-		while(bool = true) {
-			initialising();
-			Scanner newScanner = new Scanner(System.in);
-			try {
-				System.out.println("Please enter you starting Bus Stop:");
-				int from = newScanner.nextInt();
-				//int from = 55;
-				System.out.println("Please enter the destination Bus Stop:");
-				int to = newScanner.nextInt();
-				//	int to = 643;
+		//	boolean bool = true;
+		//while(bool = true) {
+		initialising();
+		Scanner newScanner = new Scanner(System.in);
+		try {
+			System.out.println("Please enter you starting Bus Stop:");
+			int from = newScanner.nextInt();
+			//int from = 55;
+			System.out.println("Please enter the destination Bus Stop:");
+			int to = newScanner.nextInt();
+			//	int to = 643;
 
-				System.out.println("From - "+from+" To - "+to+"  Cost - "+userInput(from,to));
+			System.out.println("From - "+from+" To - "+to+"  Cost - "+userInput(from,to));
 
-				Iterable<DirectedEdge> path_itr = pathTo(to);
+			Iterable<DirectedEdge> path_itr = pathTo(to);
 
-				for(DirectedEdge p: path_itr) {
-					System.out.println("From - "+ p.from() + " to - "+ p.to() + " cost - "+p.weight());
-				}
-
-				ArrayList<Integer> path = getEnrouteStops(to);
-
-				for (int p : path) {
-					System.out.print(p +" -> ");
-				}
-
-				bool = false;
-
-			} catch(java.lang.ArrayIndexOutOfBoundsException ex) {
-				System.out.println("Error, this is NOT a Stop. Try again!");
-
+			for(DirectedEdge p: path_itr) {
+				System.out.println("From - "+ p.from() + " to - "+ p.to() + " cost - "+p.weight());
 			}
+
+			ArrayList<Integer> path = getEnrouteStops(to);
+
+			for (int p : path) {
+				System.out.print(p +" -> ");
+			}
+
+			//	bool = false;
+
+		} catch(java.lang.ArrayIndexOutOfBoundsException ex) {
+			System.out.println("Error, this is NOT a Stop. Try again!");
+
 		}
 	}
+	//}
 }
 
 
