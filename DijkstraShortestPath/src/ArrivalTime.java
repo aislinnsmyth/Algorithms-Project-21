@@ -29,8 +29,7 @@ public class ArrivalTime {
 			Scanner scanner = new Scanner(System.in);
 			System.out.println("Please enter the desired arrival time in the format - hh:mm:ss");
 			String input = scanner.nextLine();
-			int result = validTime.length; 
-
+		 
 			if(isValidTime(input)) {
 				input = input.replaceFirst("^0*", "");
 				ArrayList<String> tripID = searchTime(test, size, input);
