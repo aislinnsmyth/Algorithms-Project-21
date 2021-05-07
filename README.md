@@ -16,3 +16,18 @@ criteria (zero, one or more), sorted by trip id. - Sean
 4. Provide front interface enabling selection between the above features or an option to exit
 the programme, and enabling required user input. It does not matter if this is command-line
 or graphical, as long as functionality/error checking is provided. - Aaryan
+
+Contributions:
+Aislinn - Part 1
+Github Creator
+Part 1 - Project Plan
+DijkstraShortestPath.java - DirectedEdge.java - EdgeWeightedDiagraph.java
+Stops.java - Trips.java - IndexMinPQ.java - Bag.java
+
+Myles - Part 2
+Part 2 - Project Plan
+
+Sean - Part 3
+Part 3 Project Plan
+
+Aaryan - Part 4
