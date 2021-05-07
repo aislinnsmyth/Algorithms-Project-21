@@ -1,0 +1,12 @@
+PROBLEM = "Searching for a bus stop by full name or by the first few characters in the name, using a
+          ternary search tree (TST), returning the full stop information for each stop matching the
+          search criteria (which can be zero, one or more stops)".
+          
+1). Create a buffer to input file into TST.
+
+2). Ensure that all keywords flagstop, wb, nb, sb, eb are moved from start of the names to the end of
+    the names of the stops.
+
+3). Search for 0, 1 or more bus stops by full name of first few characters in the name, using a TST.
+
+4). Return the full information of all the stops that match the given search criteria.

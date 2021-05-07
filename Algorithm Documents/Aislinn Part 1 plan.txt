@@ -1,0 +1,14 @@
+  
+PROBLEM: Finding shortest paths between 2 bus stops (as input by the user), returning the list of stops
+en route as well as the associated “cost”. 
+
+1). Get user input to input the stop IDs of the two stop they want the shortest distance between
+
+2). If input incorrect stop ID return an error and restart the program.
+
+3). Potentially display all of the stops when the program begins so that a user can choose
+from that list
+
+4). Use transfers.txt to access the directed edges between the two inputted stops.
+
+5). Use stop_times.txt to add the cost between the two stops - (uses the same trip_id).
