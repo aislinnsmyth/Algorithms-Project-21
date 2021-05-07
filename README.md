@@ -21,6 +21,7 @@ or graphical, as long as functionality/error checking is provided. - Aaryan
 Contributions:
 Aislinn - Part 1,
 Github Creator,
+Video Creator,
 Part 1 - Project Plan,
 DijkstraShortestPath.java,
 DirectedEdge.java,
@@ -38,5 +39,5 @@ Sean - Part 3,
 Part 3 Project Plan,
 Arrival_Time.java
 
-Aaryan - Part 4
+Aaryan - Part 4,
 UserInterface.java
