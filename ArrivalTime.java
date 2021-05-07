@@ -20,17 +20,9 @@ public class ArrivalTime {
 		String[] test1 = lineSplit(file, size);		
 		int columns = columns(test1);
 		String[][] test = individualSplit(test1, size, columns);
-		String[] allTime = allTime(test,size);
-	
-	//	String[][] validTime = validTime(test, size, columns, allTime);
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Please enter the desired arrival time in the format - hh:mm:ss");
 		String input = scanner.nextLine();
-	//	int result = validTime.length; 
-		//System.out.println("The result is " + result);
-	//	System.out.println("The old result is " + test.length);
-		boolean b = true;
-		while (b = true) {
 		if(isValidTime(input)) {
 			input = input.replaceFirst("^0*", "");
 			ArrayList<String> tripID = searchTime(test, size, input);
@@ -40,8 +32,6 @@ public class ArrivalTime {
 				System.out.println("The input was not a valid time in the format - hh:mm:ss");
 				
 			}
-		b = false;
-		}
 	}
 
 
@@ -105,27 +95,6 @@ public class ArrivalTime {
 		}				
 		return tripID;
 	}
-
-	static String[] allTime (String[][] file, int size){
-		String[] allTime = new String[size];		
-		for (int i = 0; i < size; i++) {          						
-			allTime[i] = file[i][1];
-		}				
-		return allTime;
-	}
-
-	static String[][] validTime (String[][] file, int size, int columns, String[] string){
-		String[] arr = string[1].split(", ");
-		String[][] validTime = new String[size][columns];
-		for (int i = 0; i < size; i++) {          												
-			if (isValidTime(arr[i])) {					
-				for (int j = 0; j < columns; j++) {	
-					validTime[i][j] = file[i][j];
-				}
-			}								
-		}
-		return validTime;
-	} 
 
 	static boolean isValidTime(String time)
 	{     
