@@ -21,13 +21,20 @@ Contributions:
 Aislinn - Part 1
 Github Creator
 Part 1 - Project Plan
-DijkstraShortestPath.java - DirectedEdge.java - EdgeWeightedDiagraph.java
-Stops.java - Trips.java - IndexMinPQ.java - Bag.java
+DijkstraShortestPath.java
+DirectedEdge.java 
+EdgeWeightedDiagraph.java
+Stops.java
+Trips.java 
+IndexMinPQ.java 
+Bag.java
 
 Myles - Part 2
 Part 2 - Project Plan
+StopSearchPartTwo.java
 
 Sean - Part 3
 Part 3 Project Plan
+Arrival_Time.java
 
 Aaryan - Part 4
