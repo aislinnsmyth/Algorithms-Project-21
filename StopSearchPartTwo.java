@@ -2,12 +2,6 @@
           ternary search tree (TST), returning the full stop information for each stop matching the
           search criteria (which can be zero, one or more stops)".
 
-2). Add the data to a TST
-
-3). Search for 0, 1 or more bus stops by full name of first few characters in the name, using a TST.
-
-4). Return the full information of all the stops that match the given search criteria. 
-
 Approach: Add the stop names to a TST, use this TST to search for stop names. 
           Whatever stop names match the search criteria, return their names and 
           the relevant information to do with these bus stops.
@@ -15,200 +9,179 @@ Approach: Add the stop names to a TST, use this TST to search for stop names.
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 class TSTNode
 {
-    char data;
-    boolean isEnd;
-    TSTNode left, middle, right;
- 
-    /** Constructor **/
-    public TSTNode(char data)
-    {
-        this.data = data;
-        this.isEnd = false;
-        this.left = null;
-        this.middle = null;
-        this.right = null;
-    }        
+	char data;
+	boolean isEnd;
+	TSTNode left, middle, right;
+
+	/** Constructor **/
+	public TSTNode(char data)
+	{
+		this.data = data;
+		this.isEnd = false;
+		this.left = null;
+		this.middle = null;
+		this.right = null;
+	}        
 }
 
 /** class TernarySearchTree **/
 class TernarySearchTree
 {
-    private TSTNode root;
-    private ArrayList<String> al;
- 
-    /** Constructor **/
-    public TernarySearchTree()
-    {
-        root = null;
-    }
-    /** function to check if empty **/
-    public boolean isEmpty()
-    {
-        return root == null;
-    }
-    /** function to clear **/
-    public void makeEmpty()
-    {
-        root = null;
-    }
-    /** function to insert for a word **/
-    public void insert(String word)
-    {
-        root = insert(root, word.toCharArray(), 0);
-    }
-    /** function to insert for a word **/
-    public TSTNode insert(TSTNode r, char[] word, int ptr)
-    {
-        if (r == null)
-            r = new TSTNode(word[ptr]);
- 
-        if (word[ptr] < r.data)
-            r.left = insert(r.left, word, ptr);
-        else if (word[ptr] > r.data)
-            r.right = insert(r.right, word, ptr);
-        else
-        {
-            if (ptr + 1 < word.length)
-                r.middle = insert(r.middle, word, ptr + 1);
-            else
-                r.isEnd = true;
-        }
-        return r;
-    }
-    /** function to delete a word **/
-    public void delete(String word)
-    {
-        delete(root, word.toCharArray(), 0);
-    }
-    /** function to delete a word **/
-    private void delete(TSTNode r, char[] word, int ptr)
-    {
-        if (r == null)
-            return;
- 
-        if (word[ptr] < r.data)
-            delete(r.left, word, ptr);
-        else if (word[ptr] > r.data)
-            delete(r.right, word, ptr);
-        else
-        {
-            /** to delete a word just make isEnd false **/
-            if (r.isEnd && ptr == word.length - 1)
-                r.isEnd = false;
- 
-            else if (ptr + 1 < word.length)
-                delete(r.middle, word, ptr + 1);
-        }        
-    }
- 
-    /** function to search for a word **/
-    public boolean search(String word)
-    {
-        return search(root, word.toCharArray(), 0);
-    }
-    /** function to search for a word **/
-    private boolean search(TSTNode r, char[] word, int ptr)
-    {
-        if (r == null)
-            return false;
- 
-        if (word[ptr] < r.data)
-            return search(r.left, word, ptr);
-        else if (word[ptr] > r.data)
-            return search(r.right, word, ptr);
-        else
-        {
-            if (r.isEnd && ptr == word.length - 1)
-                return true;
-            else if (ptr == word.length - 1)
-                return false;
-            else
-                return search(r.middle, word, ptr + 1);
-        }        
-    }
-    /** function to print tree **/
-    public String toString()
-    {
-        al = new ArrayList<String>();
-        traverse(root, "");
-        return "\nTernary Search Tree : "+ al;
-    }
-    /** function to traverse tree **/
-    private void traverse(TSTNode r, String str)
-    {
-        if (r != null)
-        {
-            traverse(r.left, str);
- 
-            str = str + r.data;
-            if (r.isEnd)
-                al.add(str);
- 
-            traverse(r.middle, str);
-            str = str.substring(0, str.length() - 1);
- 
-            traverse(r.right, str);
-        }
-    }
+	private TSTNode root;
+	private ArrayList<String> al;
+
+	/** Constructor **/
+	public TernarySearchTree()
+	{
+		root = null;
+	}
+
+	public void insert(char[] word)
+	{
+		root = insert(root, word, 0);
+	}
+
+	/** function to insert for a word **/
+	public TSTNode insert(TSTNode r, char[] word, int ptr)
+	{
+		if (r == null)
+			r = new TSTNode(word[ptr]);
+
+		if (word[ptr] < r.data)
+			r.left = insert(r.left, word, ptr);
+		else if (word[ptr] > r.data)
+			r.right = insert(r.right, word, ptr);
+		else
+		{
+			if (ptr + 1 < word.length)
+				r.middle = insert(r.middle, word, ptr + 1);
+			else
+				r.isEnd = true;
+		}
+		return r;
+	}
+
+	/** function to search for a word **/
+	public String search(String word)
+	{
+		StringBuilder sb = new StringBuilder();
+		TSTNode prefixRoot = search(root, word.toCharArray(), 0);
+		findAllSuggestions(prefixRoot, "", sb, word);
+		if (sb.length() < 1) {
+			return "No Matching String Found";
+		}			
+		return sb.toString();
+	}
+	/** function to search for a word **/
+	private TSTNode search(TSTNode r, char[] word, int ptr)
+	{
+		if (r == null) 
+			return null;
+		if (word[ptr] < r.data) 
+			return search(r.left, word, ptr);
+		else if (word[ptr] > r.data) 
+			return search(r.right, word, ptr);
+		else {
+			if (ptr == word.length - 1)	
+				return r;
+			else
+				return search(r.middle, word, ptr + 1);
+		}        
+	}
+
+	private void findAllSuggestions(TSTNode r, String str, StringBuilder sb, String word)
+
+	{
+		if (r != null) {
+			findAllSuggestions(r.left, str, sb, word);
+			str = str + r.data;
+			if (r.isEnd) {
+				sb.append(word + str.substring(1) + "\n");
+			}
+			findAllSuggestions(r.middle, str, sb, word);
+			str = str.substring(0, str.length() - 1);
+			findAllSuggestions(r.right, str, sb, word);
+		}
+
+	}
+	/** function to print tree **/
+	public String toString()
+	{
+		al = new ArrayList<String>();
+		traverse(root, "");
+		return "\nTernary Search Tree : "+ al;
+	}
+	/** function to traverse tree **/
+	private void traverse(TSTNode r, String str)
+
+	{
+		if (r != null)
+		{
+			traverse(r.left, str);
+
+			str = str + r.data;
+			if (r.isEnd)
+				al.add(str);
+
+			traverse(r.middle, str);
+			str = str.substring(0, str.length() - 1);
+
+			traverse(r.right, str);
+		}
+	}
+
+
 }
 
 public class StopSearchPartTwo {
-	
-	StopSearchPartTwo tst = new StopSearchPartTwo();
-	
-	public static int stop_id;
 
-	public static void main(String[] args) throws IOException {
-		String addressOfFile = "C:\\Users\\35389\\Downloads\\inputs\\stops.txt";
-		File busStops = new File(addressOfFile);
+	public static int rowCount (String file) throws IOException {
+		int size = 0;
+		File busStops = new File(file);
 		Scanner myReader = new Scanner(busStops);
-
-		//Find out the number of rows we need to store in the array
-		int rowCount = 0;
 		while (myReader.hasNextLine()) {
-			String data = myReader.nextLine();
-			rowCount++;
-			String[] stopDetails = data.split(",");
-		}
-		//Create the multidimensional array based on the number of rows we found and the fact that there are 10 data elements
-		String[][] stopInfo = new String[rowCount][10];
-		myReader.close();
+			myReader.nextLine();
+			size++;
+		}	
+		return size;
+	}
 
-		//Loop through the rows again storing the data in the new 2 dimensional array
-		rowCount=0;
-		boolean firstRow=true;
-		Scanner myReader2 = new Scanner(busStops);
-		while (myReader2.hasNextLine()) {
-			String data = myReader2.nextLine();
+	public static String[][] stopDetails (String file) throws IOException {
+		int rowCount = rowCount(file);
+		File busStops = new File(file);
+		boolean firstRow = true;
+		int columnCount = 10;
+		String[][] stopInfo = new String[rowCount][columnCount];
+		rowCount = 0;
+		Scanner myReader = new Scanner(busStops);
+		while(myReader.hasNextLine()) {
+			String data = myReader.nextLine();
 			//the first heading row so we want to skip it
-			if (firstRow) 
-			{
+			if (firstRow) {
 				firstRow=false;
 			}
 			//we have a data row
 			else {
 				String[] stopDetails = data.split(",");
-				for(int i = 0 ; i < 9 ; i++)
-				{
+				for (int i = 0; i < 9; i++ ) {
 					stopInfo[rowCount][i] = stopDetails[i];
 				}
-
-				// if name starts with FLAGSTOP then fix it up
 				if (stopInfo[rowCount][2].substring(0,8).equals("FLAGSTOP"))
 				{
 					String prefix = stopInfo[rowCount][2].substring(0,11);
 					stopInfo[rowCount][2] = stopInfo[rowCount][2].substring(12,stopInfo[rowCount][2].length());
 					stopInfo[rowCount][2] += " " + prefix;
 				}
-				
+
 				String temp = stopInfo[rowCount][2].substring(0,2);
 				if (temp.equals("NB") || temp.equals("SB") || temp.equals("EB") || temp.equals("WB")) {
 					stopInfo[rowCount][2] = stopInfo[rowCount][2].substring(3, stopInfo[rowCount][2].length());
@@ -216,76 +189,59 @@ public class StopSearchPartTwo {
 				}
 				rowCount++;
 			}
-
 		}
-		myReader2.close();
-		for(int i = 0; i < stopInfo.length-1; i++) {
-			for(int j = 0; j < 10; j++) {
-			//System.out.println(stopInfo[i][j]);
-			}
-			//System.out.println("--------------------------------------");
-		}
-		System.out.println("");
-		
-		Scanner scan = new Scanner(System.in);
-		 
-        /* Creating object of TernarySearchTree */
-        TernarySearchTree tst = new TernarySearchTree(); 
-        System.out.println("Ternary Search Tree Test\n"); 
- 
-        char ch;
-        /*  Perform tree operations  */
-        do    
-        {
-            System.out.println("\nTernary Search Tree Operations\n");
-            System.out.println("1. insert word");
-            System.out.println("2. search word");
-            System.out.println("3. delete word");
-            System.out.println("4. check empty");
-            System.out.println("5. make empty");
- 
-            int choice = scan.nextInt();            
-            switch (choice)
-            {
-            case 1 : 
-                System.out.println("Enter word to insert");
-                tst.insert( scan.next() );                     
-                break;                          
-            case 2 : 
-                System.out.println("Enter word to search");
-                System.out.println("Search result : "+ tst.search( scan.next() ));
-                break; 
-            case 3 : 
-                System.out.println("Enter word to delete");
-                tst.delete( scan.next() );                     
-                break; 
-            case 4 : 
-                System.out.println("Empty Status : "+ tst.isEmpty() );                
-                break;    
-            case 5 : 
-                System.out.println("Ternary Search Tree cleared"); 
-                tst.makeEmpty();               
-                break;                                        
-            default : 
-                System.out.println("Wrong Entry \n ");
-                break;   
-            }
-            System.out.println(tst);
- 
-            System.out.println("\nDo you want to continue (Type y or n) \n");
-            ch = scan.next().charAt(0);                        
-        } while (ch == 'Y'|| ch == 'y');        
+		return stopInfo;
 	}
 
-	public static String[] readBusStops (File filename) throws IOException {
-		BufferedReader buffer = new BufferedReader(new FileReader(filename));
-		String st;
-		String[] line ;
-		while ((st = buffer.readLine()) != null) {
-			line = st.split(",");
-			System.out.println(line[0]);
+	public static void main(String[] args) throws IOException {
+
+		String addressOfFile = "C:\\Users\\35389\\Downloads\\inputs\\stops.txt";
+		int rowCount = rowCount(addressOfFile);
+		String[][] stopInfo = stopDetails(addressOfFile);
+		Scanner scan = new Scanner(System.in);
+		TernarySearchTree tst = new TernarySearchTree(); 
+		// Inputting the stop names into the TernarySearchTree
+		for (int i = 0; i < rowCount; i++) {
+			String temp = stopInfo[i][2];
+			if(temp != null) {
+				char[] current = temp.toCharArray();
+				tst.insert(current);
+			}
 		}
-		buffer.close();
-		return null;
+		boolean bool = true;
+		String searchTerm = "";
+		do {
+			System.out.println("Enter stop name to search");
+			searchTerm = scan.nextLine().toUpperCase();
+			if (tst.search(searchTerm)!= "No Matching String Found") {
+				System.out.println("Search result: Success");
+				// Add way of returning the stop information 
+				for (int i = 0; i < stopInfo.length - 1 ; i++) {
+					try {
+						if (stopInfo[i][2].substring(0,searchTerm.length()).equals(searchTerm)) {
+							System.out.println("The stop ID is: " + stopInfo[i][0]);
+							System.out.println("The stop code is: " + stopInfo[i][1]);
+							System.out.println("The stop name is: " + stopInfo[i][2]);
+							System.out.println("The stop description is: " + stopInfo[i][3]);
+							System.out.println("The stop latitude is: " + stopInfo[i][4]);
+							System.out.println("The stop longitude is: " + stopInfo[i][5]);
+							System.out.println("The stop zone ID is: " + stopInfo[i][6]);
+							System.out.println("The stop url is: " + stopInfo[i][7]);
+							System.out.println("The stop location type is: " + stopInfo[i][8]);
+							System.out.println("The stop parent station is: " + stopInfo[i][9]);
+							System.out.println("******************************************");
+						}
+					}catch (NullPointerException e) {
+						System.out.println("NullPointer caught");
+					}
+				}
+				bool = false;
+			}
+			else if (tst.search(searchTerm) == "No Matching String Found") {
+				System.out.println("Search Result: Failure");
+				System.out.println("Please enter a valid bus stop name.");
+				bool = true;
+			}
+		} while (bool == true);
 	}
 }
