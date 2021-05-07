@@ -28,11 +28,11 @@ public class UserInterface {
                         DijkstraShortestPath.main();
        
                     case 2:
-                    System.out.print("lets go");
+             
                         //implement stopfind class part two
                         break;
                     case 3:
-                    System.out.print("nice");
+                    
                        ArrivalTime.main();
                         break;
                     default:
